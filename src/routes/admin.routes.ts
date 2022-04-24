@@ -12,5 +12,6 @@ adminRouter.use(ensureAuthenticated);
 
 adminRouter.post("/", passwordAdminController.create);
 adminRouter.put("/", passwordAdminController.update);
+adminRouter.patch("/", passwordAdminController.patch);
 
 export default adminRouter;

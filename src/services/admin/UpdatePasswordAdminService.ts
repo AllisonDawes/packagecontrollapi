@@ -1,5 +1,5 @@
 import { getRepository } from "typeorm";
-import { compare } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 
 import AppError from "../../errors/AppError";
 
@@ -9,13 +9,15 @@ interface IRequest {
   user_id: string;
   password: string;
   admin_password: string;
+  newPassAdmin: string;
 }
 
-class DeactivateAccountAdminService {
+class UpdatePasswordAdminService {
   public async execute({
     user_id,
     password,
     admin_password,
+    newPassAdmin,
   }: IRequest): Promise<User> {
     const usersRepository = getRepository(User);
 
@@ -37,8 +39,13 @@ class DeactivateAccountAdminService {
       throw new AppError("Combinação de senhas incorretas!", 400);
     }
 
-    findUserAdmin.admin_password = "";
-    findUserAdmin.admin = false;
+    if (newPassAdmin.length < 8) {
+      throw new AppError("Sua senha deve conter no mínimo 8 dígitos", 400);
+    }
+
+    const newPassAdminHashed = await hash(newPassAdmin, 8);
+
+    findUserAdmin.admin_password = newPassAdminHashed;
 
     await usersRepository.save(findUserAdmin);
 
@@ -46,4 +53,4 @@ class DeactivateAccountAdminService {
   }
 }
 
-export default DeactivateAccountAdminService;
+export default UpdatePasswordAdminService;
