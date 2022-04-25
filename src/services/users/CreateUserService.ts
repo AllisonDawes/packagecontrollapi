@@ -6,13 +6,19 @@ import AppError from "../../errors/AppError";
 import User from "../../models/User";
 
 interface IRequest {
+  admin_email: string;
   name: string;
   email: string;
   password: string;
 }
 
 class CreateUserService {
-  public async execute({ name, email, password }: IRequest): Promise<User> {
+  public async execute({
+    admin_email,
+    name,
+    email,
+    password,
+  }: IRequest): Promise<User> {
     const userRepository = getRepository(User);
 
     const findUser = await userRepository.find();
@@ -23,7 +29,7 @@ class CreateUserService {
 
     if (findUser.length > 0) {
       const findAdminUser = await userRepository.findOne({
-        where: { admin: true },
+        where: { email: admin_email, admin: true },
       });
 
       if (!findAdminUser) {

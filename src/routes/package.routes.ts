@@ -11,6 +11,7 @@ const packageController = new PackageController();
 packageRouter.use(ensureAuthenticated);
 
 packageRouter.get("/", packageController.index);
+packageRouter.get("/by_filter", packageController.show);
 packageRouter.post("/", packageController.create);
 
 export default packageRouter;
