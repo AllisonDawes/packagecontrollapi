@@ -13,5 +13,7 @@ packageRouter.use(ensureAuthenticated);
 packageRouter.get("/", packageController.index);
 packageRouter.get("/by_filter", packageController.show);
 packageRouter.post("/", packageController.create);
+packageRouter.put("/:package_id", packageController.update);
+packageRouter.delete("/:package_id", packageController.delete);
 
 export default packageRouter;

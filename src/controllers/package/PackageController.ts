@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import FindAllPackagesService from "../../services/package/FindAllPackagesService";
 import CreateNamePackageService from "../../services/package/CreateNamePackageService";
 import FindByFilterPackageService from "../../services/package/FindByFilterPackageService";
+import UpdateNamePackageService from "../../services/package/UpdateNamePackageService";
+import DeletePackageService from "../../services/package/DeletePackageService";
 
 class PackageController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -37,6 +39,36 @@ class PackageController {
     });
 
     return response.status(201).json(namePackage);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const admin_id = request.user.id;
+    const { package_id } = request.params;
+    const { name } = request.body;
+
+    const updateNamePackage = new UpdateNamePackageService();
+
+    const namePackage = await updateNamePackage.execute({
+      admin_id,
+      package_id,
+      name,
+    });
+
+    return response.status(200).json(namePackage);
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const admin_id = request.user.id;
+    const { package_id } = request.params;
+
+    const deletePackage = new DeletePackageService();
+
+    await deletePackage.execute({
+      admin_id,
+      package_id,
+    });
+
+    return response.status(200).json();
   }
 }
 
