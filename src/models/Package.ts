@@ -4,12 +4,18 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
+
+import StockPackage from "./StockPackage";
 
 @Entity("packages")
 class Package {
   @PrimaryGeneratedColumn("uuid")
   id: string;
+
+  @OneToMany(() => StockPackage, (stock_packages) => stock_packages.package)
+  stock_packages: StockPackage;
 
   @Column()
   name: string;
