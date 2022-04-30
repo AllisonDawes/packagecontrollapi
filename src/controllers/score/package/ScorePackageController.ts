@@ -1,26 +1,27 @@
 import { Request, Response } from "express";
 
-import InputStockPackagesService from "../../../services/stock_packages/InputStockPackagesService";
+import InputScorePackagesService from "../../../services/score_packages/InputScorePackagesService";
 
-class StockPackageController {
+class ScorePackageController {
   //public async index(request: Request, response: Response): Promise<Response> {}
 
   //public async show(request: Request, response: Response): Promise<Response> {}
 
   public async create(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-    const { package_id, input } = request.body;
+    const { package_id, score, conform } = request.body;
 
-    const inputStockPackages = new InputStockPackagesService();
+    const inputScorePackages = new InputScorePackagesService();
 
-    const inputStock = await inputStockPackages.execute({
+    const inputStock = await inputScorePackages.execute({
       user_id,
       package_id,
-      input,
+      score,
+      conform,
     });
 
     return response.status(201).json(inputStock);
   }
 }
 
-export default StockPackageController;
+export default ScorePackageController;

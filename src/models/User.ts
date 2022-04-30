@@ -21,6 +21,9 @@ class User {
   @Column("boolean")
   admin: boolean;
 
+  @Column("boolean")
+  admin_secundary: boolean;
+
   @Exclude()
   @Column()
   password: string;

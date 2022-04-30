@@ -52,7 +52,7 @@ class UsersControllers {
   public async update(request: Request, response: Response): Promise<Response> {
     const user_admin = request.user.id;
     const { user_id } = request.params;
-    const { name, email } = request.body;
+    const { name, email, password } = request.body;
 
     const updateUser = new UpdateUserService();
 
@@ -61,6 +61,7 @@ class UsersControllers {
       user_id,
       email,
       name,
+      password,
     });
 
     return response.status(200).json(classToPlain(user));

@@ -1,12 +1,12 @@
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export default class CreateStockPackage1651102903129
+export default class CreateScorePackage1651102903129
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "stock_packages",
+        name: "score_packages",
         columns: [
           {
             name: "id",
@@ -16,19 +16,18 @@ export default class CreateStockPackage1651102903129
             default: "uuid_generate_v4()",
           },
           {
-            name: "input",
+            name: "score",
             type: "integer",
-            isNullable: true,
-          },
-          {
-            name: "output",
-            type: "integer",
-            isNullable: true,
           },
           {
             name: "date",
             type: "timestamp",
             default: "now()",
+          },
+          {
+            name: "conform",
+            type: "boolean",
+            default: true,
           },
           {
             name: "created_at",

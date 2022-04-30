@@ -5,12 +5,12 @@ import {
   TableForeignKey,
 } from "typeorm";
 
-export default class AddColumnPackageIdToStockPackage1651103821350
+export default class AddColumnPackageIdToScorePackage1651103821350
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.addColumn(
-      "stock_packages",
+      "score_packages",
       new TableColumn({
         name: "package_id",
         type: "uuid",
@@ -19,9 +19,9 @@ export default class AddColumnPackageIdToStockPackage1651103821350
     );
 
     await queryRunner.createForeignKey(
-      "stock_packages",
+      "score_packages",
       new TableForeignKey({
-        name: "StockPckagesPackage",
+        name: "StockPackagesPackage",
         columnNames: ["package_id"],
         referencedColumnNames: ["id"],
         referencedTableName: "packages",
@@ -31,7 +31,7 @@ export default class AddColumnPackageIdToStockPackage1651103821350
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey("stock_packages", "StockPackagesPackage");
-    await queryRunner.dropColumn("stock_packages", "package_id");
+    await queryRunner.dropForeignKey("score_packages", "StockPackagesPackage");
+    await queryRunner.dropColumn("score_packages", "package_id");
   }
 }

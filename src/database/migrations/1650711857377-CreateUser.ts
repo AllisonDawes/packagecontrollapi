@@ -27,6 +27,11 @@ export default class CreateUser1650711857377 implements MigrationInterface {
             default: false,
           },
           {
+            name: "admin_secundary",
+            type: "boolean",
+            default: false,
+          },
+          {
             name: "password",
             type: "varchar",
           },

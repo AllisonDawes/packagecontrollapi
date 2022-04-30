@@ -1,4 +1,5 @@
 import { getRepository } from "typeorm";
+import { hash } from "bcryptjs";
 
 import AppError from "../../errors/AppError";
 
@@ -9,6 +10,7 @@ interface IRequest {
   user_id: string;
   email: string;
   name: string;
+  password?: string;
 }
 
 class UpdateUserService {
@@ -17,6 +19,7 @@ class UpdateUserService {
     user_id,
     email,
     name,
+    password,
   }: IRequest): Promise<User> {
     const userRespository = getRepository(User);
 
@@ -54,6 +57,12 @@ class UpdateUserService {
 
     findUser.name = name;
     findUser.email = email;
+
+    if (password) {
+      const passwordHashed = await hash(password, 8);
+
+      findUser.password = passwordHashed;
+    }
 
     await userRespository.save(findUser);
 

@@ -11,8 +11,8 @@ import {
 import Package from "./Package";
 import User from "./User";
 
-@Entity("stock_packages")
-class StockPackage {
+@Entity("score_packages")
+class ScorePackage {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -23,7 +23,7 @@ class StockPackage {
   @Column()
   user_id: string;
 
-  @ManyToOne(() => Package, (packageColmun) => packageColmun.stock_packages)
+  @ManyToOne(() => Package, (packageColmun) => packageColmun.score_packages)
   @JoinColumn({ name: "package_id" })
   package: Package;
 
@@ -31,13 +31,13 @@ class StockPackage {
   package_id: string;
 
   @Column("integer")
-  input: number;
-
-  @Column("integer")
-  output: number;
+  score: number;
 
   @Column("timestamp with time zone")
   date: Date;
+
+  @Column("boolean")
+  conform: boolean;
 
   @CreateDateColumn()
   created_at: Date;
@@ -46,4 +46,4 @@ class StockPackage {
   updated_at: Date;
 }
 
-export default StockPackage;
+export default ScorePackage;

@@ -7,15 +7,15 @@ import {
   OneToMany,
 } from "typeorm";
 
-import StockPackage from "./StockPackage";
+import ScorePackage from "./ScorePackage";
 
 @Entity("packages")
 class Package {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @OneToMany(() => StockPackage, (stock_packages) => stock_packages.package)
-  stock_packages: StockPackage;
+  @OneToMany(() => ScorePackage, (score_packages) => score_packages.package)
+  score_packages: ScorePackage;
 
   @Column()
   name: string;

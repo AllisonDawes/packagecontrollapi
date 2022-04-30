@@ -5,23 +5,25 @@ import AppError from "../../errors/AppError";
 
 import User from "../../models/User";
 import Package from "../../models/Package";
-import StockPackage from "../../models/StockPackage";
+import ScorePackage from "../../models/ScorePackage";
 
 interface IRequest {
   user_id: string;
   package_id: string;
-  input: number;
+  score: number;
+  conform: boolean;
 }
 
-class InputStockPackagesService {
+class InputScorePackagesService {
   public async execute({
     user_id,
     package_id,
-    input,
-  }: IRequest): Promise<StockPackage> {
+    score,
+    conform,
+  }: IRequest): Promise<ScorePackage> {
     const userRepository = getRepository(User);
     const packageRepository = getRepository(Package);
-    const stockPackageRepository = getRepository(StockPackage);
+    const scorePackageRepository = getRepository(ScorePackage);
 
     const packageExist = await packageRepository.findOne({
       where: { id: package_id },
@@ -36,22 +38,27 @@ class InputStockPackagesService {
     });
 
     if (!userExist) {
-      throw new AppError("Usuário não encontrado, ou não permitido!", 400);
+      throw new AppError("Usuário não encontrado!", 400);
+    }
+
+    if (!userExist.admin || userExist.admin_secundary) {
+      throw new AppError("Usuário não tem permissão!", 400);
     }
 
     const dateRegister = startOfDay(new Date());
 
-    const stockPackage = stockPackageRepository.create({
+    const stockPackage = scorePackageRepository.create({
       user_id,
       package_id,
-      input,
+      score,
       date: dateRegister,
+      conform,
     });
 
-    await stockPackageRepository.save(stockPackage);
+    await scorePackageRepository.save(stockPackage);
 
     return stockPackage;
   }
 }
 
-export default InputStockPackagesService;
+export default InputScorePackagesService;
