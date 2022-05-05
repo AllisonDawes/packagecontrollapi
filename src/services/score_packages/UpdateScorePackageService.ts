@@ -3,7 +3,6 @@ import { getRepository } from "typeorm";
 import AppError from "../../errors/AppError";
 
 import User from "../../models/User";
-import Package from "../../models/Package";
 import ScorePackage from "../../models/ScorePackage";
 
 interface IRequest {
@@ -21,7 +20,6 @@ class UpdateScorePackageService {
     conform,
   }: IRequest): Promise<ScorePackage> {
     const userRepository = getRepository(User);
-    const packageRepository = getRepository(Package);
     const scorePackageRepository = getRepository(ScorePackage);
 
     const user = await userRepository.findOne({
@@ -32,17 +30,20 @@ class UpdateScorePackageService {
       throw new AppError("Usuário não encontrado!", 400);
     }
 
-    if (!user.admin || !user.admin_secundary) {
-      throw new AppError("Usuário não tempermissão!", 400);
+    console.log({
+      user,
+    });
+
+    if (!user.admin) {
+      if (!user.admin_secundary) {
+        throw new AppError("Usuário não tem permissão!", 400);
+      }
     }
 
     const scorePackage = await scorePackageRepository.findOne(score_id);
 
     if (!scorePackage) {
-      throw new AppError(
-        "Usuário não Contagem de embalagem não encontrada!",
-        400
-      );
+      throw new AppError("Contagem de embalagem não encontrada!", 400);
     }
 
     scorePackage.score = score;

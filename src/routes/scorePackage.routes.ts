@@ -10,5 +10,6 @@ const scorePackageController = new ScorePackageController();
 scorePackageRouter.use(ensureAuthenticated);
 
 scorePackageRouter.post("/", scorePackageController.create);
+scorePackageRouter.put("/:score_id", scorePackageController.update);
 
 export default scorePackageRouter;

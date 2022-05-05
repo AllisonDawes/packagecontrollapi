@@ -31,12 +31,12 @@ class FindUserByFilterService {
 
     const findUserEmail = await userRepository.find({
       where: { email: ILike(`%${search_user}%`) },
-      order: { name: "ASC" },
+      order: { email: "ASC" },
     });
 
-    const findUserCpf = await userRepository.find({
-      where: { cpf: ILike(`%${search_user}%`) },
-      order: { name: "ASC" },
+    console.log({
+      findUserEmail,
+      findUserName,
     });
 
     if (findUserName.length > 0) {
@@ -45,10 +45,6 @@ class FindUserByFilterService {
       return user;
     } else if (findUserEmail.length > 0) {
       const user = findUserEmail;
-
-      return user;
-    } else if (findUserCpf.length > 0) {
-      const user = findUserCpf;
 
       return user;
     }
